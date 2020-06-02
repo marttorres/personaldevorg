@@ -1,0 +1,9 @@
+.THIS table {
+  table-layout:fixed;
+}
+.THIS td {
+  word-wrap:break-word;
+}
+.THIS th {
+  word-wrap:break-word;
+}

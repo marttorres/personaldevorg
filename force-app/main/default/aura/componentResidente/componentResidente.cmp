@@ -1,0 +1,156 @@
+<aura:component controller="componentResidenteCls">    
+    <aura:attribute name="listSexos" type="String[]"/>
+    <aura:attribute name="listResidentes" type="Residente__c[]"/>
+    <aura:attribute name="objResidente" type="Residente__c" default="{}"/>   
+    <aura:attribute name="objViviendaSeleccionada" type="sObject" default="{}"/> 
+    <aura:attribute name="isOpen" type="Boolean" default="false"/>
+    <aura:attribute name="errors" type="Boolean" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.loadAttributes}"/>
+    <aura:handler name="reRenderEvt" event="c:componentLookUpEvt" action="{!c.openModalAddItem }"/>
+    
+    <aura:if isTrue="{!v.errors}">
+        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+            <span class="slds-assistive-text">{!$Label.c.HeaderErrorResidente}</span>
+            <h2>{!$Label.c.HeaderErrorResidente}</h2>
+            <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close">
+                <span class="slds-assistive-text">{!$Label.c.CloseResidente}</span>
+            </button>
+        </div>
+    </aura:if>   
+    
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid" style="background-color:#d3d3d3">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <center>
+                    <lightning:icon iconName="standard:household" size="large" alternativeText="Indicates approval"/>
+                    <h1 style="color:gray; font-weight:bold; font-size:24px">{!$Label.c.CasaJade}</h1>
+                </center>
+                <div class="slds-media__body">
+                    <center>
+                        <h2 class="slds-card__header-title">
+                            <span class="slds-text-heading_small">{!$Label.c.BienvenidoResidente}</span>
+                        </h2>
+                    </center> 
+                </div>
+            </header>
+        </div>
+        <div >
+            <c:componentVivienda isOpen="{!v.isOpen}"/>
+            <lightning:layout horizontalAlign="center">
+                <lightning:layoutItem padding="around-large" flexibility="auto" size="6" mediumDeviceSize="12" largeDeviceSize="6">
+                    <lightning:layout horizontalAlign="center" verticalAlign="center">
+                        <lightning:icon iconName="standard:avatar" alternativeText="Mi vivienda"/>
+                        <lightning:layoutItem padding="horizontal-small">
+                            <h1 class="slds-text-heading--label">{!$Label.c.H1Residente}</h1>
+                            <h2 class="slds-text-heading--medium">{!$Label.c.H2Residente}</h2>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <lightning:layout horizontalAlign="center" verticalAlign="center">
+                        <lightning:layoutItem padding="around-small" size="6">
+                            <div aria-labelledby="residenteForm">
+                                <fieldset class="slds-box slds-theme--default slds-container--small">
+                                    <legend id="residenteForm" class="slds-text-heading--small slds-p-vertical--medium">
+                                        {!$Label.c.H3Residente}
+                                    </legend>
+                                    <form class="slds-form--stacked">
+                                        <lightning:input aura:id="strNombreValue" 
+                                                         label="Nombre"
+                                                         value="{!v.objResidente.Name}"/>                                        
+                                        <lightning:input type="number" 
+                                                         aura:id="numEdadValue" 
+                                                         label="Edad"
+                                                         min="1"
+                                                         step="1"
+                                                         value="{!v.objResidente.numEdad__c}"/>
+                                        <lightning:input type="number" 
+                                                         aura:id="currSalarioValue" 
+                                                         label="Salario"
+                                                         min="0.1"
+                                                         max="9999999.0"
+                                                         formatter="currency"
+                                                         step="0.01"
+                                                         value="{!v.objResidente.currSalario__c}"/>
+                                        <lightning:select aura:id="SexoValue" value="{!v.objResidente.Sexo__c}" label="Sexo">
+                                            <option value="">{!$Label.c.SexoResidente}</option>
+                                            <aura:iteration items="{!v.listSexos}" var="sexo">
+                                                <option value="{!sexo.value}" text="{!sexo.label}"></option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                        <c:componentLookUp aura:id="viviendaValue" strAPINameObjecto="Vivienda__c" strNombreIcono="standard:account" objObjetoSeleccionado="{!v.objViviendaSeleccionada}" strIdObjetoPadre="" objPredefinido=""/>
+                                        <center>
+                                            <lightning:button label="Registrar" 
+                                                              class="slds-m-top--medium"
+                                                              variant="brand"
+                                                              onclick="{!c.registrarResidente}"/>
+                                            <lightning:button label="Limpiar" 
+                                                              class="slds-m-top--medium"
+                                                              variant="brand"
+                                                              onclick="{!c.limpiarFormulario}"/>
+                                        </center>
+                                    </form>
+                                </fieldset>
+                            </div>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-large" flexibility="auto" size="6" mediumDeviceSize="12" largeDeviceSize="6">
+                    <lightning:layout horizontalAlign="center" verticalAlign="center">
+                        <lightning:icon iconName="standard:groups" alternativeText="Mi vivienda"/>
+                        <lightning:layoutItem padding="horizontal-small">
+                            <h2 class="slds-text-heading--medium">{!$Label.c.HeaderResidente}</h2>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                    <br/>
+                    <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-horizontal slds-table_striped">
+                        <thead>
+                            <tr class="slds-text-heading--label">
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.EstatusResidente}">{!$Label.c.EstatusResidente}</div></th>
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.NombreResidente}">{!$Label.c.NombreResidente}</div></th>
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.EdadResidente}">{!$Label.c.EdadResidente}</div></th>
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.SalarioResidente}">{!$Label.c.SalarioResidente}</div></th>
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.ViviendaResidente}">{!$Label.c.ViviendaResidente}</div></th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="{!$Label.c.ActualizarResidente}">
+                                        {!$Label.c.ActualizarResidente}
+                                        <lightning:helptext content="{!$Label.c.HelpResidente}"/>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.listResidentes}" var="residente">
+                                <tr>
+                                    <td>
+                                        <div class="slds-truncate" title="{!$Label.c.EstatusColaborador}">
+                                            <img src="{!if((residente.forPagosHipotecarios__c > ((if(residente.Vivienda__r.currCostoCasa__c == '', 0, residente.Vivienda__r.currCostoCasa__c)) * 0.10)), $Resource.green, $Resource.red)}"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="Nombre">{!residente.Name}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="Edad">{!residente.numEdad__c}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="Salario">{!residente.currSalario__c}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="Vivienda">{!residente.Vivienda__r.Name}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!if((residente.Vivienda__r.Id == '' || residente.Vivienda__r.Id == null), true, false)}">
+                                            <div onclick="{!c.actualizarResidente}" data-value="{!residente.Id}">
+                                                <lightning:button iconName="action:approval"/>
+                                            </div>
+                                        </aura:if> 
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </article>
+</aura:component>

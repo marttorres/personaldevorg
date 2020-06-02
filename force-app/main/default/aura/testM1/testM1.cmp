@@ -1,0 +1,3 @@
+<aura:component >
+	<lightning:input type="String" label="Birthday" name="date" />
+</aura:component>

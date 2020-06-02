@@ -1,0 +1,4 @@
+<aura:component >
+    <aura:attribute name="userName" type="String" default="Martin" description="The user name"/>
+    <c:BootcampComponent userName="{!v.userName}"/>
+</aura:component>

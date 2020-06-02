@@ -1,0 +1,10 @@
+<aura:component controller="Test2" access="global" implements="force:appHostable">
+    <aura:registerEvent name="addItem" type="c:picklistActorEvent"/>  
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>    
+    <aura:attribute name="recordMovie" type="Movie__c"/>
+    <div class="slds-form-element">
+        <div class="slds-select_container">
+            <ui:inputSelect label="Peliculas" class="dynamic" aura:id="InputMovies" change="{!c.onPicklistChange}"/> 
+        </div>
+    </div>
+</aura:component>

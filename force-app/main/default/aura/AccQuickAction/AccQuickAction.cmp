@@ -1,0 +1,78 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" controller="AccQuickActionController">
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+	<aura:attribute name="errors" type="Boolean" default="false"/>
+	<aura:attribute name="errorsMsg" type="String"/>
+	<aura:attribute name="idColaborador" type="Id" default="{!v.recordId}" />
+	<aura:attribute name="objColaborador" type="Colaborador__c" 
+					default="{'sobjectType': 'Colaborador__c',
+							 'FechaInicio__c': '',
+							 'FechaCierre__c':'',
+							 'Proyecto__c':'',
+							 'Account__c':''}"/>
+	<aura:attribute name="objAccount" type="sObject" default="{}"/>
+	<aura:attribute name="objOpportunity" type="sObject" default="{}"/>
+ 
+	<section role="dialog" aria-labelledby="modalHeader" aria-modal="true" class="slds-modal slds-fade-in-open">
+		<div class="slds-modal__container" style="height:100%; width:100%">
+			<header class="slds-modal__header">
+				<h2 id="modalHeader" class="slds-text-heading_medium slds-hyphenate">{!$Label.c.ColaboradorInformacion}</h2>
+			</header>
+            <aura:if isTrue="{!v.errors}">
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">Error</span>
+                    <h4>{!v.errorsMsg}</h4>
+                    <!--button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close">
+                        <span class="slds-assistive-text">No se puede</span>
+                    </button-->
+                </div>
+            </aura:if>
+			<div class="slds-modal__content slds-p-around_medium" id="modalContent">
+				<div class="c-container">
+					<lightning:layout horizontalAlign="space">
+						<lightning:layoutItem flexibility="auto" padding="around-small">
+							<h1 class="slds-text-title">{!$Label.c.NombreColaborador}</h1>
+							<p >{!v.objColaborador.Nombre__c}&nbsp;{!v.objColaborador.ApellidoPaterno__c}&nbsp;{!v.objColaborador.ApellidoMaterno__c}</p>
+							<br/>
+							<h1 class="slds-text-title">{!$Label.c.ColaboradorEmpresa}</h1>
+							<p >{!v.objColaborador.Empresa__c}</p>
+							<br/>
+							<h1 class="slds-text-title">{!$Label.c.ColaboradorSector}</h1>
+							<p >{!v.objColaborador.Sector__c}</p>
+							<br/>
+							<h1 class="slds-text-title">{!$Label.c.CapabilityColaborador}</h1>
+							<p >{!v.objColaborador.Capability__c}</p>
+							<br/>
+							<h1 class="slds-text-title">{!$Label.c.ColaboradorNivel}</h1>
+							<p >{!v.objColaborador.Nivel__c}</p>
+						</lightning:layoutItem>
+						<lightning:layoutItem flexibility="auto" padding="around-small">
+							<h1 class="slds-text-title">{!$Label.c.FechaInicio}</h1>
+							<ui:inputDate aura:id="startdate"
+										value="{!v.objColaborador.FechaInicio__c}"
+										select="{!c.nullify}" keyup="{!c.nullify}" keypress="{!c.nullify}"
+										updateOn="keypress, keyup" displayDatePicker="true" required="true" />
+							<br/>
+							<h1 class="slds-text-title">{!$Label.c.FechaCierre}</h1>
+							<ui:inputDate aura:id="closedate"
+										value="{!v.objColaborador.FechaCierre__c}"
+										select="{!c.nullify}" keyup="{!c.nullify}" keypress="{!c.nullify}"
+										updateOn="keypress, keyup" displayDatePicker="true" required="true" />
+							<br/>
+							<h1 class="slds-text-title">{!$Label.c.CuentaColaborador}</h1>
+							<aura:if isTrue="true">
+								<c:componentProyectoLookUp strAPINameObjecto="account" strNombreIcono="standard:account" objObjetoSeleccionado="{!v.objAccount}" strIdObjetoPadre="" objPredefinido=""/>
+							</aura:if>
+							<br/>
+							<h1 class="slds-text-title">{!$Label.c.ProyectoColaborador}</h1>
+							<c:componentProyectoLookUp strAPINameObjecto="opportunity" strNombreIcono="standard:opportunity" objObjetoSeleccionado="{!v.objOpportunity}" strIdObjetoPadre="{!v.objAccount.Id}" objPredefinido=""/>
+						</lightning:layoutItem> 
+					</lightning:layout>
+				</div>			
+			</div>
+			<footer class="slds-modal__footer">
+				<lightning:button class="slds-button slds-button_neutral" label="Cerrar" onclick="{!c.cancelBtn}"/>
+				<lightning:button class="slds-button slds-button_brand" label="Colocar" onclick="{!c.clickUpdateCol}"/>
+			</footer>
+		</div>
+	</section>
+</aura:component>

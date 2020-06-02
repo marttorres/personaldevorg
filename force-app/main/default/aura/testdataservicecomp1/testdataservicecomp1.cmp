@@ -1,0 +1,29 @@
+<aura:component >
+    <aura:attribute name="recordObject" type="Object" />
+    <aura:attribute name="recordTargetField" type="Object" />
+    <aura:attribute name="fieldsToQuery" type="String[]" default="Name,Email,Phone"  />
+    <aura:attribute name="error" type="String" />
+    <aura:attribute name="layout" type="String" default="FULL" />
+    <aura:attribute name="recordId" type="Id" default="005f4000001i74dAAA"/>	
+    <force:recordData aura:id="forceRecordCmpEdit" 
+                      recordId="{!v.recordId}"
+                      mode="EDIT"
+                      layoutType="{!v.layout}"
+                      targetFields="{!v.recordObject}"
+                      targetRecord="{!v.recordTargetField}"
+                      targetError="{!v.error}"
+                      recordUpdated="{!c.updateRecord}"
+                      />
+	
+    <div class="slds-grid slds-grid_align-center">
+    	<div class="slds-col">
+            <aura:if isTrue="{!v.recordObject}">
+        	<lightning:input label="Name" name="myname" value="{!v.recordObject.Name}" />
+            <lightning:input label="Email" name="Email" value="{!v.recordObject.Email}" onchange="{!c.onChangeMethod}" />
+            <lightning:input type="tel" label="Phone" name="tel" value="{!v.recordObject.Phone}" onchange="{!c.onChangeMethod}" />
+            <force:inputField aura:id="Type" value="{!v.recordObject.Type}" class="autoHeight" change="{!c.onChangeMethod}"/>
+			</aura:if>
+        </div>
+    </div>
+    
+</aura:component>

@@ -1,0 +1,10 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" >
+    <aura:attribute type="String" name="input" />
+    <aura:attribute type="String" name="output" />
+    
+    
+    <lightning:input label="Ingrese Texto" name="myText" value="{!v.input }"/>
+    {!v.output}        
+    <lightning:button name="myButton" label="Show" onclick="{!c.myAction}"/>
+	
+</aura:component>

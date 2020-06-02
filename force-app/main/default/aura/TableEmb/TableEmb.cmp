@@ -1,0 +1,73 @@
+<aura:component controller="TableEmbCls" implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.myAction}"/>
+    <aura:attribute name="accounts" type="List" />
+    <aura:attribute name="contacts" type="List" />
+    <aura:attribute name="idAccount" type="ID" />
+    <aura:attribute name="relationAccountsContact" type="object[]" default="[]"/>    
+    <aura:attribute name="mymap" type="List" />
+    <aura:attribute name="isRendered" type="Boolean" default="true"/>
+
+    <aura:if isTrue="{!v.isRendered}">
+   
+
+<table class="slds-table slds-table_fixed-layout slds-table_bordered slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-horizontal slds-table_striped">
+        <thead >
+            <tr class="slds-line-height_reset">
+                <th class="slds-size_1-of-3 slds-text-title_caps" scope="col"><div class="slds-truncate" title="Account Name"><b>Account</b></div></th>
+                <th class="slds-size_1-of-3 slds-text-title_caps" scope="col"><div class="slds-truncate" title="Account Industry"><b>Industry</b></div></th>
+                <th class="slds-size_1-of-3 slds-text-title_caps" scope="col"><div class="slds-truncate" title="Account Phone"><b>Phone</b></div></th>
+            </tr>
+        </thead>
+        <tbody>
+                <aura:iteration items="{!v.relationAccountsContact}" var="a">
+                        <tr>
+                            <td  data-label="Account Name">
+                                <div class="slds-truncate" title="">
+                                    <div  onclick="{!c.contactos}" data-value="{!a.key.Id + ';Account;' + a.key.Name}">
+                                        <!--{!a.key.Id + ';Account;' + a.key.Name}-->
+                                           {!a.key.Name}
+                                    </div>
+                                </div>
+                            </td>
+                            <td  data-label="Industry">
+                                <div class="slds-truncate" title="">
+                                        <div  onclick="{!c.contactos}" data-value="{!a.key.Id + ';Account;' + a.key.Name}">
+                                               {!a.key.Industry}
+                                               
+                                        </div>
+                                </div>
+                            </td>
+                            <td data-label="Closed">
+                                <div class="slds-truncate" title="">
+                                        <div  onclick="{!c.contactos}" data-value="{!a.key.Id + ';Account;' + a.key.Name}">
+                                                 {!a.key.Phone}
+                                               
+                                        </div>
+                                </div>
+                            </td>   
+                            
+                                                               
+                        </tr>
+                    <tr>        
+                        <table>
+                            
+                                <aura:iteration items="{!a.list}" var="b" >  
+                            <tr>        
+                                <div  onclick="{!c.contactos}" data-value="{!b.Id + ';Contact;' + b.LastName}">
+                                   
+                                    &emsp; &emsp;   &emsp; Contact: &nbsp; &nbsp; {!b.LastName} {!b.FirstName}
+                              
+                                  
+                                 </div>
+                                                                  
+                               
+                            </tr>
+                        </aura:iteration>  
+                        </table>                                  
+                    </tr>
+                </aura:iteration>
+
+        </tbody>
+    </table>     
+    </aura:if> 
+</aura:component>

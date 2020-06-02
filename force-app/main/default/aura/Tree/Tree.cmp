@@ -1,0 +1,6 @@
+<aura:component controller="TreeController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="items" type="Object"/>
+    <lightning:tree items="{! v.items }" header="Account - Contact - Opportunity"/>
+    
+</aura:component>

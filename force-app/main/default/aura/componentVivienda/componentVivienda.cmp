@@ -1,0 +1,90 @@
+<aura:component controller="componentViviendaCls">
+    <aura:attribute name="isOpen" type="Boolean" default="false"/>
+    <aura:attribute name="listColores" type="String[]"/>
+    <aura:attribute name="listTamanios" type="String[]"/>
+    <aura:attribute name="objVivienda" type="Vivienda__c" default="{}"/>
+    <aura:attribute name="listViviendas" type="Vivienda__c[]"/>    
+    <aura:attribute name="errors" type="Boolean" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.loadAttributes}"/>
+    
+    <aura:if isTrue="{!v.isOpen}">
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <h2 id="header99" class="slds-text-heading--medium">{!$Label.c.HeaderVivienda}</h2>
+                    <aura:if isTrue="{!v.errors}">
+                        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                            <span class="slds-assistive-text">{!$Label.c.HeaderError}</span>                            
+                            <h2>{!$Label.c.HeaderMsgVivienda}</h2>
+                            <button class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" title="Close">
+                                <span class="slds-assistive-text">{!$Label.c.CloseVivienda}</span>
+                            </button>
+                        </div>
+                    </aura:if> 
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <div class="c-container">
+                        <form class="slds-form--stacked">
+                            <lightning:layout horizontalAlign="space">
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <h3 class="slds-text-heading--medium" style="color:gray">{!$Label.c.DireccionVivienda}</h3>
+                                    <lightning:input aura:id="viviendaForm"
+                                                     pattern="\[a-zA-Z]{8}"
+                                                     value="{!v.objVivienda.strDireccion__c}"/>
+                                    <br/>
+                                    <h3 class="slds-text-heading--medium" style="color:gray">{!$Label.c.CostoCasaVivienda}</h3>
+                                    <lightning:input type="number"
+                                                     min="0.1"
+                                                     max="9999999.0"
+                                                     formatter="currency"
+                                                     step="0.01"
+                                                     value="{!v.objVivienda.currCostoCasa__c}"
+                                                     messageWhenRangeUnderflow="Enter an amount that's at least $0.10."/>
+                                    <br/>
+                                    <h3 class="slds-text-heading--medium" style="color:gray">{!$Label.c.ColorVivienda}</h3>
+                                    <lightning:select value="{!v.objVivienda.Color__c}">
+                                        <option value="">
+                                            {!$Label.c.ColorDescVivienda}
+                                        </option>
+                                        <aura:iteration items="{!v.listColores}" var="color">
+                                            <option value="{!color.value}" text="{!color.label}"></option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                    <br/>                                    
+                                </lightning:layoutItem>
+                                <lightning:layoutItem flexibility="auto" padding="around-small">
+                                    <h3 class="slds-text-heading--medium" style="color:gray">{!$Label.c.Tamanio}</h3>
+                                    <lightning:select value="{!v.objVivienda.Tamanio__c}">
+                                        <option value="">
+                                            {!$Label.c.TamanioDescVivienda}
+                                        </option>
+                                        <aura:iteration items="{!v.listTamanios}" var="tamanio">
+                                            <option value="{!tamanio.value}" text="{!tamanio.label}"></option>
+                                        </aura:iteration>
+                                    </lightning:select>                                    
+                                    <br/>
+                                    <h3 class="slds-text-heading--medium" style="color:gray">{!$Label.c.VentanasViivienda}</h3>
+                                    <lightning:input type="number"
+                                                     min="1"
+                                                     step="1"
+                                                     value="{!v.objVivienda.numVentanas__c}"/>                                    
+                                    <br/>
+                                    <h3 class="slds-text-heading--medium" style="color:gray">{!$Label.c.PatioVivienda}</h3>
+                                    <lightning:input type="checkbox"
+                                                     label="¿Incluido?"
+                                                     checked="{!v.objVivienda.chkboxPatio__c}"/>                                    
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </form>
+                    </div>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button--neutral" onclick="{!c.cerrarModal}" >{!$Label.c.CerrarVivienda}</button>
+                    <button class="slds-button slds-button--brand" onclick="{!c.registrarVivienda}">{!$Label.c.GuardarVivienda}</button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+</aura:component>

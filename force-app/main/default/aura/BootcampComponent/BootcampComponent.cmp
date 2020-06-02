@@ -1,0 +1,4 @@
+<aura:component >
+    <aura:attribute name="userName" type="String" default="Martin" description="The user name"/>
+    <p>Parent value: {!v.userName}</p>
+</aura:component>

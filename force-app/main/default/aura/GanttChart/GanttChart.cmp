@@ -1,0 +1,9 @@
+<aura:component controller="GanttChart">
+<!-- <ltng:require scripts="{!join(',', $Resource.gantt, $Resource.gantt_highcharts)}" afterScriptsLoaded="{!c.doInit}" /> -->
+    
+     <ltng:require scripts="{!$Resource.gantts}" afterScriptsLoaded="{!c.doInit}" />
+
+
+
+    <div id="container" style="height: 100%; width: 100%"></div>
+</aura:component>

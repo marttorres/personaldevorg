@@ -1,0 +1,4 @@
+<aura:event type="APPLICATION" description="Event template" >
+    <aura:attribute name="strDataAccount" type="String" />
+    <aura:attribute name="strDataContact" type="String" />
+</aura:event>

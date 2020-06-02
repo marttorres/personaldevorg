@@ -1,0 +1,4 @@
+({
+    createExpense: function(component, expense) {
+    }
+})

@@ -1,0 +1,63 @@
+<aura:component controller="AccountsController">
+    <aura:attribute name="listAccounts" type="Account[]"/>    
+    <aura:attribute name="listContacts" type="Contact[]"/>
+    <aura:attribute name="listColumns" type="List"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <lightning:accordion>
+        <ul class="slds-accordion">           
+            <aura:iteration items="{!v.listAccounts}" var="Account">
+                <li class="slds-accordion__list-item">
+                    <lightning:layout class="slds-card">
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-horizontal slds-table_striped">
+                            <thead>
+                                <tr class="slds-text-heading--label">
+                                    <th scope="col"><div class="slds-truncate" title="Account Number">Account Number</div></th>
+                                    <th scope="col"><div class="slds-truncate" title="Account Account">Account</div></th>
+                                    <th scope="col"><div class="slds-truncate" title="Account Industry">Industry</div></th>
+                                    <th scope="col"><div class="slds-truncate" title="Account Phone">Phone</div></th>
+                                    <th scope="col"><div class="slds-truncate" title="Account Website">Website</div></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="slds-truncate" title="Account Number">{!Account.AccountNumber}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="Account Name">{!Account.Name}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="Account Industry">{!Account.Industry}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="Account Phone">{!Account.Phone}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="Account Website">{!Account.Website}</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>     
+                    </lightning:layout>
+                    
+                    <div onclick="{!c.showContacts}" id="{!Account.Id}">
+                        <lightning:accordionSection label="See contacts" >                            
+                            <lightning:card>
+                                <p class="slds-p-horizontal_small">      
+                                    <lightning:datatable data="{!v.listContacts}"
+                                                         columns="{!v.listColumns}"                            
+                                                         keyField="id"  
+                                                         hideCheckboxColumn="true"    
+                                                         />
+                                    <!--onrowselection="{!c.getSelected}"-->
+                                </p>
+                            </lightning:card>                            
+                        </lightning:accordionSection>
+                    </div>
+                </li>
+            </aura:iteration>
+        </ul>
+    </lightning:accordion>  
+</aura:component>

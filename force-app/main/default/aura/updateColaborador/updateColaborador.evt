@@ -1,0 +1,3 @@
+<aura:event type="COMPONENT">
+  <aura:attribute name="colaborador" type="Colaborador__c"/>
+</aura:event>

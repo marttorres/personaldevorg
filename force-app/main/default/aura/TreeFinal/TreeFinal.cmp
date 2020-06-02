@@ -1,0 +1,22 @@
+<!-- This component retrieves the records that meet the search criterias were specified by the user -->
+<aura:component controller="AccountSearchTree_MRC">
+    <aura:attribute name="strQuery" type="String"/>
+    <aura:attribute name="listContacts" type="Contact[]"/>
+    <aura:attribute name="strQueryFired" type="String"/>
+    <aura:attribute name="items" type="Object"/>
+    <aura:attribute name="itemsBackup" type="Object"/>
+    <aura:attribute name="itemsBackupPerm" type="Object"/>
+    <aura:attribute name="eventNumber" type="Integer" default="0"/>
+    <aura:attribute name="strCaseTypeName" type="String"/>
+    <aura:attribute name="lstRecordType" type="List"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:registerEvent name="DataAccountContact" type="c:ContactAccountEvt" />
+    <aura:method name="triggerQuery" action="{!c.triggerQuery}">
+        <aura:attribute name="strQueryFired" type="String"/>
+    </aura:method>
+    
+    <aura:method name="mappingAccountType" action="{!c.mappingAccountType}">
+    </aura:method>
+    
+    <lightning:tree items="{!v.items}" onselect="{!c.getItem}"/>    
+</aura:component>

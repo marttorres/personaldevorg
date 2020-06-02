@@ -1,0 +1,122 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" controller="componentSeguimientoController" access="global">
+    <aura:attribute name="listColaboradores" type="Object"/>
+    <aura:attribute name="listCapability" type="String[]"/>
+    <aura:attribute name="strCapability" type="String"/>
+    <aura:attribute name="listEmpresa" type="String[]"/>
+    <aura:attribute name="strEmpresa" type="String"/>
+    <aura:attribute name="page" type="integer" description="using for store page Number"/>
+    <aura:attribute name="pages" type="integer" description="using for store All Pages page Number"/>
+    <aura:attribute name="total" type="integer" description="total records count store "/>
+    <aura:handler name="init" value="{!this }" action="{!c.init}"/>
+    
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container slds-icon-standard-account" title="Colaborador">
+                        <lightning:icon iconName="standard:team_member" size="large" alternativeText="Indicates approval"/>
+                        <span class="slds-assistive-text">Colaboradores</span>
+                    </span>
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span class="slds-text-heading_small">{!$Label.c.BienvenidaColaboradores}</span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body">
+            <lightning:layout horizontalAlign="spread" multipleRows="true">
+                <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="12" mediumDeviceSize="6">
+                    <lightning:select aura:id="picklistEmpresa" value="{!v.strEmpresa}" label="Company" onchange="{!c.getByCapability}">
+                        <aura:iteration items="{!v.listEmpresa}" var="empresa">
+                            <option value="{!empresa.value}" text="{!empresa.label}" ></option>
+                        </aura:iteration>
+                    </lightning:select>                    
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="around-small" size="6" smallDeviceSize="12" mediumDeviceSize="6">
+                    <lightning:select aura:id="picklistCapability" value="{!v.strCapability}" label="Capability" onchange="{!c.getByCapability}">
+                        <aura:iteration items="{!v.listCapability}" var="capability">
+                            <option value="{!capability.value}" text="{!capability.label}" ></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </lightning:layoutItem>
+            </lightning:layout>
+            <lightning:layout >
+                <lightning:layoutItem size="12" smallDeviceSize="12" mediumDeviceSize="12">		
+                    <br></br>
+                    <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table--stacked-horizontal slds-table_striped">
+                        <thead>
+                            <tr class="slds-text-heading--label">
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.CapabilityColaborador}">{!$Label.c.CapabilityColaborador}</div></th>
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.NombreColaborador}">{!$Label.c.NombreColaborador}</div></th>
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.EstatusColaborador}">{!$Label.c.EstatusColaborador}</div></th>
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.CuentaColaborador}">{!$Label.c.CuentaColaborador}</div></th>
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.ProyectoColaborador}">{!$Label.c.ProyectoColaborador}</div></th>
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.FechaInicio}">{!$Label.c.FechaInicio}</div></th>
+                                <th scope="col"><div class="slds-truncate" title="{!$Label.c.FechaCierre}">{!$Label.c.FechaCierre}</div></th>
+                                <th scope="col">
+                                    <div class="slds-truncate" title="{!$Label.c.Aprobar}">
+                                        {!$Label.c.Aprobar}
+                                        <lightning:helptext content="{!$Label.c.AprobarHelp}"/>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <aura:iteration items="{!v.listColaboradores}" var="item">
+                                <tr>
+                                    <td>
+                                        <div class="slds-truncate" title="Capability">{!item.Capability__c}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="{!$Label.c.NombreColaborador}">{!item.Nombre__c}&nbsp;{!item.ApellidoPaterno__c}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="{!$Label.c.EstatusColaborador}">
+                                            <img src="{!if((item.Estatus__c == 'Banca'), $Resource.red, if((item.Estatus__c == 'Asignado'), $Resource.green, $Resource.yellow))}"/>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="{!$Label.c.CuentaColaborador}">{!item.Account__r.Name}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="{!$Label.c.ProyectoColaborador}">{!item.Opportunity__r.Name}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="{!$Label.c.FechaInicio}">{!item.FechaInicio__c}</div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" title="{!$Label.c.FechaCierre}">{!item.FechaCierre__c}</div>
+                                    </td>
+                                    <td>
+                                        <aura:if isTrue="{!if((item.Estatus__c == 'Por confirmar'), true, false)}">
+                                            <div onclick="{!c.asignar}" data-value="{!item.Id}">
+                                                <lightning:button iconName="action:approval"/>
+                                            </div>
+                                        </aura:if>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>                    
+                    <div class="slds-page-header" role="banner">   
+                        <div align="right">  
+                            <ui:inputSelect aura:id="recordSize" label="Records per page:" class="select" change="{!c.onSelectChange}">
+                                <ui:inputSelectOption text="5" label="5" value="true"/>
+                                <ui:inputSelectOption text="10" label="10" />
+                                <ui:inputSelectOption text="15" label="15"/>
+                                <ui:inputSelectOption text="20" label="20"/>
+                            </ui:inputSelect>
+                            <p>{!v.total} Collaborators - Page {!v.page} / {!v.pages}</p>
+                        </div>
+                        <div class="slds-align_absolute-center">    
+                            <lightning:button iconPosition="left" iconName="utility:back" disabled="{!v.page == 1}" variant="brand" label="Previous" onclick="{! c.navigate }"/>            
+                            <lightning:button iconPosition="right" iconName="utility:forward" disabled="{!v.page == v.pages}" aura:id="previousPage" variant="brand" label="Next" onclick="{! c.navigate }"/>
+                        </div>
+                    </div>                    
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+    </article>  
+</aura:component>

@@ -1,0 +1,73 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="recordObject" type="Object" />
+    <aura:attribute name="recordTargetField" type="Object" />
+    <aura:attribute name="fieldsToQuery" type="String[]" default="AccountNumber,MailingAddress,BillingState,BillingStreet,Id, Industry,Name,Email,Phone,PhotoUrl,ShippingStreet"  />
+    <aura:attribute name="error" type="String" />
+    <aura:attribute name="layout" type="String" default="FULL" />
+    <aura:attribute name="recordId" type="Id" default="005f4000001i74dAAA"/>	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <force:recordData aura:id="forceRecordCmp" 
+                      recordId="{!v.recordId}"
+                      mode="VIEW"
+                      layoutType="{!v.layout}"
+                      targetRecord="{!v.recordTargetField}"
+                      targetFields="{!v.recordObject}"
+                      targetError="{!v.error}"
+                      recordUpdated="{!c.recordLoaded}"
+                      />
+    
+    <div class="slds-grid slds-grid_align-center slds-m-top_large">
+        
+        <div class="slds-col slds-medium-size_1-of-1">
+            <aura:if isTrue="{!v.showSpinner}">
+                <lightning:spinner variant="brand" size="large"/>
+            </aura:if>
+            <aura:if isTrue="{!v.recordObject}">
+                <lightning:tile label="{!v.recordObject.Name}" href="/path/to/somewhere">
+                    <aura:set attribute="media">
+                        <lightning:avatar src="{!v.recordObject.PhotoUrl}" alternativeText="Codey Bear"/>
+                    </aura:set>
+                    <dl class="slds-dl--horizontal">
+                        <dt class="slds-dl--horizontal__label">
+                            <p class="slds-truncate" title="Company">Name:</p>
+                        </dt>
+                        <dd class="slds-dl--horizontal__detail slds-tile__meta">
+                            <p class="slds-truncate" title="{!v.recordObject.Industry}">{!v.recordObject.Name}</p>
+                        </dd>
+                        <dt class="slds-dl--horizontal__label">
+                            <p class="slds-truncate" title="Phone">Phone:</p>
+                        </dt>
+                        <dd class="slds-dl--horizontal__detail slds-tile__meta">
+                            <p class="slds-truncate" title="{!v.recordObject.Phone}">{!v.recordObject.Phone}</p>
+                        </dd>
+                        <dt class="slds-dl--horizontal__label">
+                            <p class="slds-truncate" title="Phone">Email:</p>
+                        </dt>
+                        <dd class="slds-dl--horizontal__detail slds-tile__meta">
+                            <p class="slds-truncate" title="{!v.recordObject.Email}">{!v.recordObject.Email}</p>
+                        </dd>
+                    </dl>
+                </lightning:tile>    
+                
+                <div class="demo-only slds-size_3-of-4">
+                    <div class="slds-media">
+                        <div class="slds-media__figure">
+                            <span class="slds-avatar slds-avatar_large">
+                                
+                            </span>
+                        </div>
+                        <div class="slds-media__body">
+                            
+                        </div>
+                    </div>
+                </div>   
+                <div>
+                    
+                </div>
+                
+            </aura:if>    
+            
+        </div>
+    </div>
+</aura:component>

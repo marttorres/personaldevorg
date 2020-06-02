@@ -1,0 +1,36 @@
+<aura:component >
+    <lightning:layout multipleRows="true">
+        <lightning:layoutItem padding="around-large" size="12" smallDeviceSize="12" mediumDeviceSize="4" largeDeviceSize="4">
+            <!--HEADER CODE START-->
+            <lightning:layout class="searchCriteria slds-page-header slds-page-header">
+                <lightning:layoutItem>
+                    <lightning:icon iconName="standard:calibration" alternativeText="Filters"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="horizontal-small">
+                    <div class="page-section page-header">
+                        <h1 class="slds-text-heading--label">Filters</h1>
+                        <h2 class="slds-text-heading--medium">Section for filters.</h2>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>        
+            <!--HEADER CODE FINISH-->
+    	</lightning:layoutItem>
+        <lightning:layoutItem padding="around-large" size="12" smallDeviceSize="12" mediumDeviceSize="8" largeDeviceSize="8">
+            <!--HEADER CODE START-->
+            <lightning:layout class="searchResult slds-page-header slds-page-header">
+                <lightning:layoutItem>
+                    <lightning:icon iconName="standard:report" alternativeText="Result"/>
+                </lightning:layoutItem>
+                <lightning:layoutItem padding="horizontal-small">
+                    <div class="page-section page-header">
+                        <h1 class="slds-text-heading--label">Result</h1>
+                        <h2 class="slds-text-heading--medium">Section for results.</h2>
+                    </div>
+                </lightning:layoutItem>
+            </lightning:layout>        
+            <!--HEADER CODE FINISH-->
+    	</lightning:layoutItem>
+    </lightning:layout >
+
+
+</aura:component>

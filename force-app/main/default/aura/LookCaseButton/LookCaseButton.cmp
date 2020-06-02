@@ -1,0 +1,7 @@
+<aura:component implements="flexipage:availableForAllPageTypes,lightning:backgroundUtilityItem">
+   <lightning:workspaceAPI aura:id="workspace" />
+    <lightning:navigationItemAPI aura:id="navigationItemAPI"/>
+
+<aura:handler event="lightning:tabFocused" action="{! c.onTabFocused }"/>
+<lightning:button label="Focus navigation item" onclick="{!c.focusNavigationItem}"/>
+</aura:component>

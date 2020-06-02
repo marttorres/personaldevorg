@@ -1,0 +1,13 @@
+<aura:component >
+    <aura:attribute name="messageFromEvent" type="String"/>
+    <aura:attribute name="numEvents" type="Integer" default="0"/>
+    
+    <!--Note that name of handlerr is -->
+    <aura:handler event="c:BootcampComponentEventApp" action="{!c.recogerResultadoEvento}"/>
+    
+  
+    <p>{!v.messageFromEvent}</p>
+    <p>Number of events: {!v.numEvents}</p>
+    
+	
+</aura:component>
