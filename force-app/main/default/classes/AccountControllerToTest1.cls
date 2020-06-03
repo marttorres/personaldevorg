@@ -1,6 +1,6 @@
 public class AccountControllerToTest1 {
     public ID idMovie {set; get;}
-    public list<Personaje__c> listActorSelect {get;set;}
+    public list<Personaje__c> listActorSelect {get; set;}
     public List<Actor__c> idActores;
     public list<Personaje__c> listSend;
     //Hola
